@@ -8,14 +8,14 @@
 
         public function index()
         {
-            $data = [
-                'title' => 'Xpat Giidem',
-                'content' => 'Lorem shudda been ipsum tho!'
-            ];
-            $this->view('posts/index', $data);
+            $data = $this->postModel->getPosts();
+            return $this->response([
+                'success' => true,
+                'posts' => $data,
+            ]);
         }
         public function about($user)
         {
-            $this->view('posts/about', 'Is this a post? '. $user);
+            return $this->response($user);
         }
     }

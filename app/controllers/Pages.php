@@ -6,7 +6,7 @@
         // }
         public function index()
         {
-            $this->view('index');
+            $this->response('index');
         }
         public function about($user)
         {

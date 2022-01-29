@@ -14,6 +14,6 @@
         }
 
         function response($data) {
-            return json_encode($data);
+            echo json_encode($data);
         }
     }
