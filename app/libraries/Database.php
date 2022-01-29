@@ -114,10 +114,10 @@
                 $value = '"'.$value.'"';
                 
                 if ($column == array_key_first($data)) {
-                    $this->query .= 'WHERE '. $column . ' = ' . $value;
+                    $this->query .= ' WHERE '. $column . ' = ' . $value;
                 }
                 else{
-                    $this->query .= 'AND '. $column . ' = ' . $value;
+                    $this->query .= ' AND '. $column . ' = ' . $value;
                 }
 
                 $i+=1;
@@ -134,9 +134,19 @@
                 $value = $data[$column];
                 $value = '"'.$value.'"';
                 
-                $this->query .= 'OR '. $column . ' = ' . $value;
+                $this->query .= ' OR '. $column . ' = ' . $value;
                 $i+=1;
             }
+        }
+
+        public function orderBy($column,$direction = 'ASC')
+        {
+            $this->query .= ' ORDER BY '. $column . ' ' . $direction;
+        }
+
+        public function limit($count)
+        {
+            $this->query .= ' LIMIT '. $count;
         }
 
 

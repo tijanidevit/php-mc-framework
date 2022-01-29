@@ -14,6 +14,8 @@
             $this->db->from('posts');
             $this->db->where(['id' => 2]);
             $this->db->orWhere(['title' => 'Hello There!!!']);
+            $this->db->orderBy('id','DESC');
+            $this->db->limit(2);
             return $this->db->fetchAll();
 
             
