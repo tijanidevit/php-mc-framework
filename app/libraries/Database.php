@@ -105,18 +105,37 @@
 
         public function where($data)
         {
-            $array_count = count($data);
-            if ($array_count == 1) {
-                $column = array_keys($data)[0];
+            $i = 0;
+            foreach ($data as $column => $value) { 
+                $col = array_keys($data);
+                
+                $column = $col[$i];
                 $value = $data[$column];
                 $value = '"'.$value.'"';
-                var_dump($value);
-                $this->query .= 'WHERE '. $column . ' = ' . $value;
-
-                echo $this->query;
-            }
-            else{
                 
+                if ($column == array_key_first($data)) {
+                    $this->query .= 'WHERE '. $column . ' = ' . $value;
+                }
+                else{
+                    $this->query .= 'AND '. $column . ' = ' . $value;
+                }
+
+                $i+=1;
+            }
+        }
+
+        public function orWhere($data)
+        {
+            $i = 0;
+            foreach ($data as $column => $value) { 
+                $col = array_keys($data);
+                
+                $column = $col[$i];
+                $value = $data[$column];
+                $value = '"'.$value.'"';
+                
+                $this->query .= 'OR '. $column . ' = ' . $value;
+                $i+=1;
             }
         }
 

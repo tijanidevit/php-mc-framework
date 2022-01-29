@@ -12,7 +12,8 @@
         {
             $this->db->select('*');
             $this->db->from('posts');
-            $this->db->where(['title' => "Hello There!!!"]);
+            $this->db->where(['id' => 2]);
+            $this->db->orWhere(['title' => 'Hello There!!!']);
             return $this->db->fetchAll();
 
             
