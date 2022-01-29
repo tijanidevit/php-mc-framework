@@ -12,6 +12,7 @@
 
         private $dbh;
         private $stmt;
+        private $query = '';
         private $error;
         
         public function __construct(){
@@ -30,9 +31,15 @@
             }
         }
 
-        public function query($query)
+        public function query($query = '')
         {
-            $this->stmt = $this->dbh->prepare($query);
+            if ($query == '') {
+                $this->stmt = $this->dbh->prepare($this->query);
+            }
+            else{
+                $this->stmt = $this->dbh->prepare($query);
+            }
+            
         }
 
         public function bind($param, $value, $type = null)
@@ -62,6 +69,9 @@
 
         public function execute()
         {
+            if ($this->query != '') {
+                $this->query();
+            }
             return $this->stmt->execute();
         }
 
@@ -85,21 +95,28 @@
 
         public function select($column)
         {
-            $this->stmt = 'SELECT '. $column . ' ';
+            $this->query = 'SELECT '. $column . ' ';
         }
 
         public function from($tableName)
         {
-            $this->stmt .= ' FROM '. $tableName . ' ';
+            $this->query .= ' FROM '. $tableName . ' ';
         }
 
         public function where($data)
         {
             $array_count = count($data);
             if ($array_count == 1) {
-                $column = array_keys($data);
+                $column = array_keys($data)[0];
                 $value = $data[$column];
-                $this->stmt .= 'WHERE '. $column . ' = ' .$value;
+                $value = '"'.$value.'"';
+                var_dump($value);
+                $this->query .= 'WHERE '. $column . ' = ' . $value;
+
+                echo $this->query;
+            }
+            else{
+                
             }
         }
 
