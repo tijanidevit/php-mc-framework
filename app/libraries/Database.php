@@ -149,5 +149,34 @@
             $this->query .= ' LIMIT '. $count;
         }
 
+        
+
+        public function update($data,$tableName)
+        {
+            $this->query = 'UPDATE ' . $tableName .' SET ';
+            $i = 0;
+            foreach ($data as $column => $value) { 
+                $col = array_keys($data);
+                
+                $column = $col[$i];
+                $value = $data[$column];
+                $value = '"'.$value.'"';
+                
+                if ($column == array_key_first($data)) {
+                    $this->query .= $column . ' = ' . $value;
+                }
+                else{
+                    $this->query .= ' , '. $column . ' = ' . $value;
+                }
+
+                $i+=1;
+            }
+        }
+
+        public function run()
+        {
+            // return $this->query;
+            return $this->execute();
+        }
 
     }
