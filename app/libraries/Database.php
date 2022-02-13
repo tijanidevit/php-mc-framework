@@ -93,6 +93,41 @@
             return $this->stmt->rowCount(PDO::FETCH_OBJ);
         }
 
+        public function insert($data,$tableName)
+        {
+            $this->query = 'INSERT INTO ' . $tableName;
+            $columns = '(';
+            $values = ' VALUES (';
+            $i = 0;
+            foreach ($data as $column => $value) { 
+                $col = array_keys($data);
+                
+                $column = $col[$i];
+                $value = $data[$column];
+                $value = '"'.$value.'"';
+                
+                if ($column == array_key_first($data)) {
+                    $columns .=  $column ;
+
+                    $values .=  $value;
+                }
+                else{
+                    $columns .= ' , '. $column ;
+
+                    $values .= ' , ' . $value;
+                }
+
+                $i+=1;
+            }
+
+            $columns .= " )";
+            $values .= " )";
+
+            $this->query .= $columns .$values;
+
+            return $this->execute();
+        }
+
         public function select($column)
         {
             $this->query = 'SELECT '. $column . ' ';
@@ -149,7 +184,19 @@
             $this->query .= ' LIMIT '. $count;
         }
 
-        
+        public function first()
+        {
+            $this->orderBy('id');
+            $this->limit(1);
+            return $this->fetchOne();
+        }
+
+        public function last()
+        {
+            $this->orderBy('id', 'DESC');
+            $this->limit(1);
+            return $this->fetchOne();
+        }
 
         public function update($data,$tableName)
         {
@@ -171,6 +218,11 @@
 
                 $i+=1;
             }
+        }
+        
+        public function delete($tableName)
+        {
+            $this->query = 'DELETE FROM ' . $tableName;
         }
 
         public function run()

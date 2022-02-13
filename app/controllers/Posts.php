@@ -46,5 +46,30 @@
                 'message' => 'Post not found',
             ]);
         }
+        
+        public function insertPost()
+        {   
+            try {
+                
+                $this->require(['title','content']);
+
+                $title = $this->form('title');
+                $content = $this->form('content');
+                $data = [
+                    'title' => $title, 
+                    'content' => $content
+                ];
+                $response = $this->postModel->insertPost($data);
+                return $this->response([
+                    'success' => true,
+                    'data' => $response,
+                ]);
+            } catch (Exception $e) {
+                return $this->response([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+        }
 
     }

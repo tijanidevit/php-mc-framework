@@ -36,4 +36,12 @@
             $this->db->where(['id' => $id]);
             return $this->db->run();
         }
+
+        public function insertPost($data)
+        {
+            $this->db->insert($data, 'posts');
+            $this->db->select('*');
+            $this->db->from('posts');
+            return $this->db->last('posts');
+        }
     }
